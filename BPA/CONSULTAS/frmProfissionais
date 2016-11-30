@@ -1,0 +1,76 @@
+Attribute VB_Name = "frmProfissionais"
+Attribute VB_Base = "0{268D1678-F932-4205-A222-11CBBAF707F9}{97DE404F-030D-40F7-935E-CBE9ED3BC924}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = False
+Option Explicit
+
+Private Sub btn_back_Click()
+     Unload Me
+End Sub
+
+Private Sub btn_cadastrar_Click()
+Dim ws As Worksheet
+Dim lo As ListObject
+Dim lr As ListRow
+
+Application.ScreenUpdating = False
+
+With Me
+    If .txt_prof.Value = "" Then
+        .lbvalida.Caption = "#ERRO PROF = VAZIO"
+        .lbvalida.ForeColor = &HFF&
+    ElseIf .txt_cod = "" Then
+        .lbvalida.Caption = "#ERRO CÓD. = VAZIO"
+        .lbvalida.ForeColor = &HFF&
+    ElseIf .txt_cbo = "" Then
+        .lbvalida.Caption = "#ERRO CBO. = VAZIO"
+        .lbvalida.ForeColor = &HFF&
+    Else
+        Set ws = shListas
+        Set lo = ws.ListObjects("LISTA_PROCED")
+        Set lr = lo.ListRows.Add
+        With lr
+            .Range(lo.ListColumns("PROFISSIONAL").Index).Value2 = Me.txt_prof.Value
+            .Range(lo.ListColumns("CÓD. DO PROCED.").Index).Value2 = Me.txt_cod.Value * 1
+            .Range(lo.ListColumns("Nº DE CBO").Index).Value2 = Me.txt_cbo.Value * 1
+        End With
+        
+        With lo
+            .Sort.SortFields.Clear
+            .Sort.SortFields _
+                .Add Key:=Range("LISTA_PROCED[[#Headers],[PROFISSIONAL]]"), SortOn:= _
+                xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+        With .Sort
+            .Header = xlYes
+            .MatchCase = False
+            .Orientation = xlTopToBottom
+            .SortMethod = xlPinYin
+            .Apply
+        End With
+        End With
+        Unload Me
+        MsgBox "Cadastro Realizado com Sucesso", vbInformation
+    End If
+End With
+Application.ScreenUpdating = True
+End Sub
+
+Private Sub txt_cbo_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+     Me.txt_cbo.Value = Format(Me.txt_cbo.Value, "000000")
+End Sub
+
+Private Sub txt_cod_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+     Me.txt_cod.Value = Format(Me.txt_cod.Value, "0000000000")
+End Sub
+
+Private Sub txt_prof_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+     Me.txt_prof.Value = UCase(Me.txt_prof.Value)
+End Sub
+
+Private Sub UserForm_Activate()
+    shApoio.Activate
+End Sub

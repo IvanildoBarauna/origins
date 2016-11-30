@@ -1,0 +1,28 @@
+Attribute VB_Name = "twbk"
+Attribute VB_Base = "0{00020819-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Option Explicit
+
+Private Sub Workbook_Open()
+    Dim strUname    As String
+    Dim strCname    As String
+    
+    strUname = Environ("Username")
+    strCname = Environ("computername")
+    
+    If strUname = "cristiane.barauna" Or strUname = "usernet" Then
+        ModoTelaCheia Ligado
+        shApoio.Select
+    Else
+        MsgBox "Usuário não autorizado." & vbNewLine _
+            & "Entre em contato com o administrador da planilha para conceder permissão" & _
+                vbNewLine _
+                    & vbNewLine, vbCritical, "Validação"
+        ThisWorkbook.Close SaveChanges:=False
+    End If
+End Sub
