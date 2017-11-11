@@ -1,4 +1,3 @@
-## AiosaPlan.xslm
 Attribute VB_Name = "Módulo1"
 Option Explicit
 Public Sub UnicosDic()
