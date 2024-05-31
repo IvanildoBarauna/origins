@@ -1,0 +1,57 @@
+Attribute VB_Name = "shtDIGITAÇÃO"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Private Sub Worksheet_Change(ByVal Target As Range)
+Dim uRow       As Long
+Dim rng1        As String
+Dim rng2        As String
+Dim strQtd     As String
+
+     If Target.Address = "$A$6" Or Target.Address = "$B$6" Then
+
+     rng1 = Me.Range("PROF").Value
+     rng2 = Me.Range("PROC").Value
+     uRow = Me.Range("C8").End(xlDown).Row
+     
+          With Me
+                    If .AutoFilterMode Then .ListObjects("tbDIGITAÇÃO").AutoFilter.ShowAllData
+                    If rng1 <> "" And rng2 <> "" Then
+                         .Range("A8:I" & uRow).AutoFilter Field:=1, Criteria1:=rng1
+                         .Range("A8:I" & uRow).AutoFilter Field:=2, Criteria1:=rng2
+                         uRow = .Range("C8").End(xlDown).Row
+                         strQtd = InputBox("Digite a quantidade:")
+                         If IsNumeric(strQtd) = False Then Exit Sub
+                         .Range("C" & uRow).Value = .Range("C" & uRow).Value + strQtd
+                         MsgBox "Adicionado " & strQtd & " " & rng2 & " para " & rng1 & vbNewLine _
+                              & vbNewLine & "Total: " & .Range("C" & uRow).Value, vbInformation
+                         .ListObjects("tbDIGITAÇÃO").AutoFilter.ShowAllData
+                         Cells.Columns.AutoFit
+                             .Range("PROF").Value = vbNullString
+                             .Range("PROC").Value = vbNullString
+                             CriarlstUnica
+                    ElseIf rng1 = "" And rng2 = "" Then
+                         On Error Resume Next
+                         .ListObjects("tbDIGITAÇÃO").AutoFilter.ShowAllData
+                    ElseIf rng1 = "" Then
+                         On Error Resume Next
+                         .ListObjects("tbDIGITAÇÃO").AutoFilter.ShowAllData
+                         .Range("A8:I" & uRow).AutoFilter Field:=2, Criteria1:=rng2
+                    ElseIf rng2 = "" Then
+                         On Error Resume Next
+                         .ListObjects("tbDIGITAÇÃO").AutoFilter.ShowAllData
+                         .Range("A8:I" & uRow).AutoFilter Field:=1, Criteria1:=rng1
+                    End If
+          End With
+     End If
+End Sub
+
+Private Sub Worksheet_SelectionChange(ByVal Target As Range)
+          Application.ScreenUpdating = False
+          If Target.Address = "$A$6" Or Target.Address = "$B$6" Then CriarlstUnica
+          Application.ScreenUpdating = True
+End Sub
