@@ -6,5 +6,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Attribute VB_TemplateDerived = False
 Attribute VB_Customizable = True
-Option Explicit
+Private Sub Workbook_Open()
+    Ligar
+End Sub
+
 

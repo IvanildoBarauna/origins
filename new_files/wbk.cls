@@ -6,8 +6,16 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Attribute VB_TemplateDerived = False
 Attribute VB_Customizable = True
-Option Explicit
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+
+Application.StatusBar = ""
+
+End Sub
 
 Private Sub Workbook_Open()
-      shtHOME.Activate
+
+shtDIGITAÇÃO.Activate
+Application.StatusBar = ("Gerencial BPA 2017 - Todos os direitos reservados à Ivanildo Junior.  |  Nome do Usuário logado: " & Environ("USERNAME") & "  |  Nome do Computador: " & Environ("COMPUTERNAME"))
+
+
 End Sub

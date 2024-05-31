@@ -1,24 +1,27 @@
 Attribute VB_Name = "Módulo3"
-Sub copiar()
-Attribute copiar.VB_ProcData.VB_Invoke_Func = " \n14"
-'
-' copiar Macro
-'
+Public Enum FullScreenMode
+    Ligar = 1
+    Desligar = 0
+End Enum
 
-'
-    Range("Tabela2[[#All],[NOME DIZIMISTA/OFERTANTE]:[DESCRIÇÃO]]").Select
-    Selection.Copy
-    Sheets("RELATÓRIO").Select
-    Application.Run "CADASTRO_MEMBROS.xlsm!SalvamentoProgramado"
-    Range("A3").Select
-    ActiveCell.FormulaR1C1 = "ID"
-    Range("A3").Select
-    Selection.ClearContents
-    Range("A3").Select
-    ActiveCell.FormulaR1C1 = "NOME"
-    Range("A3").Select
-    Selection.ClearContents
-    Range("B3").Select
-    ActiveCell.FormulaR1C1 = "NOME"
-    Range("C3").Select
+Public Sub FullScreen(eMode As FullScreenMode)
+    Dim booAux      As Boolean
+    Dim sbooAux     As String
+    
+    booAux = Not VBA.IIf(eMode = Ligar, True, False)
+    sbooAux = VBA.IIf(booAux, "True", "False")
+    
+    Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon""," & sbooAux & ")"
+    
+    With Application
+        .DisplayFullScreen = Not booAux
+        .DisplayFormulaBar = booAux
+        .DisplayScrollBars = booAux
+        .DisplayStatusBar = booAux
+
+        With .ActiveWindow
+            .DisplayHeadings = booAux
+            .DisplayWorkbookTabs = booAux
+        End With
+    End With
 End Sub

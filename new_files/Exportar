@@ -1,0 +1,84 @@
+Attribute VB_Name = "Exportar"
+Sub ExportForImage(FileName As String)
+Attribute ExportForImage.VB_ProcData.VB_Invoke_Func = " \n14"
+    Application.ScreenUpdating = False
+    On Error GoTo msg
+    Dim rngArea     As Excel.Range
+    Dim shp         As Shape
+    Dim cht         As Chart
+    
+    wsCardColab.Calculate
+    Set rngArea = wsCardColab.Range("B1:C9")
+    
+    Call ExcluirShapes
+    
+    rngArea.CopyPicture Appearance:=xlPrinter, Format:=xlPicture
+    
+    waitTime = TimeSerial(Hour(Now()), Minute(Now()), Second(Now()) + 0.6)
+    Application.Wait waitTime
+    
+    Set cht = wsCardColab.Shapes.AddChart2(201, xlColumnClustered).Chart
+    
+    cht.PlotArea.Select
+    
+    cht.Paste
+    
+    wsCardColab.Shapes(2).ScaleWidth 1.7, msoFalse, msoScaleFromTopLeft
+    
+    cht.Export (FileName)
+    
+   Call ExcluirShapes
+    Application.ScreenUpdating = True
+    Exit Sub
+
+    Application.ScreenUpdating = True
+msg: MsgBox "Erro na execução da rotina ExportForImage, tente novamente ou contate o desenvolvedor.", vbCritical
+    Debug.Print vbNewLine & "ExportForImage" & VBA.Err.Description & " em:" & VBA.Now()
+End Sub
+
+Sub ExcluirShapes()
+    On Error GoTo msg
+    Dim sht As Shape
+    
+    For Each shp In wsCardColab.Shapes
+        If Not shp.Name = "rt" And Not shp.Name = "img" And Not shp.Name = "sta" And Not shp.Name = "agg" Then
+            shp.Delete
+        End If
+    Next shp
+    
+    Exit Sub
+    
+msg: MsgBox "Erro na execução na rotina ExcluirShapes, tente novamente ou contate o desenvolvedor.", vbCritical
+Debug.Print vbNewLine & "ExcluirShapes" & VBA.Err.Description & " em:" & VBA.Now()
+End Sub
+
+Function ValAjudaCusto(ByVal ColabName As String) As Boolean
+    Dim itemvalcusto As String
+    Dim itemvlrCusto As Double
+    
+    itemvalcusto = Application.WorksheetFunction.VLookup(ColabName, _
+        wsParam.ListObjects(1).DataBodyRange.Value2, 5, 0)
+    itemvlrCusto = Application.WorksheetFunction.VLookup(ColabName, _
+        wsParam.ListObjects(1).DataBodyRange.Value2, 4, 0)
+    
+    If itemvalcusto = "SIM" Or itemvlrCusto <> 0 Then ValAjudaCusto = True
+End Function
+
+Function ValComissao(ByVal ColabName As String) As Boolean
+    Dim itemcomissao As Double
+    
+    itemcomissao = Application.WorksheetFunction.VLookup(ColabName, _
+    wsParam.ListObjects(1).DataBodyRange.Value2, 6, 0)
+
+    If itemcomissao <> 0 Then ValComissao = True
+End Function
+
+
+
+
+
+
+
+
+
+

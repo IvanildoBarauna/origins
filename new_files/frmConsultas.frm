@@ -1,5 +1,5 @@
 Attribute VB_Name = "frmConsultas"
-Attribute VB_Base = "0{B28B9C6D-875E-42DD-8CA2-BF118A1C2E39}{21E54F65-E931-4892-93A5-7FCAD2CC9092}"
+Attribute VB_Base = "0{7DE602C2-B522-4BF0-BC97-A6422B013012}{31861BE9-8813-4D2E-88C2-11BFF46ACB1F}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -116,14 +116,12 @@ Private Sub txt_nascto_Exit(ByVal Cancel As MSForms.ReturnBoolean)
             Cancel = True
             .btnLan.Enabled = False
         ElseIf Len(Replace(.txt_nascto, "/", "")) <> 8 Then
-err:
             .lbValida = "#ERRO DATA NASCTO = INVALIDA."
             Cancel = True
         Else
             .lbValida = ""
             .btnLan.Enabled = True
             .txt_nascto.Value = VBA.Format(VBA.Replace(Me.txt_nascto.Value, "/", ""), "00\/00\/0000")
-            If Not VBA.IsDate(.txt_nascto.Value) Then GoTo err
         End If
     End With
 End Sub

@@ -1,11 +1,11 @@
 from oletools.olevba import VBA_Parser
 import os
 
-files = os.listdir("/Users/ivbarauna/repos/origins/source_files")
+files = os.listdir("source_files/")
 
 def extract_full_code():
     for file in files: 
-        vba_parser = VBA_Parser("/Users/ivbarauna/repos/origins/source_files/" + file)
+        vba_parser = VBA_Parser("source_files/" + file)
         if vba_parser.detect_vba_macros():
             for (
                 filename,

@@ -1,5 +1,5 @@
 Attribute VB_Name = "frmCadastroConsulta"
-Attribute VB_Base = "0{7A084ED1-B5CC-490C-8110-63C7F9C55953}{C243A091-14F7-4771-8820-C22EF7217092}"
+Attribute VB_Base = "0{246B1405-BBFB-4BD5-9411-F8F68970586F}{95A93FF2-3FD5-44CB-9EC7-02ACF2F87152}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

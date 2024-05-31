@@ -1,5 +1,5 @@
 Attribute VB_Name = "frmCadastroProcedimento"
-Attribute VB_Base = "0{23BDFC0D-F0A9-4BDE-BA0F-AD97C9C99B20}{240685DB-3ACB-46C0-9B7B-5346E564BF94}"
+Attribute VB_Base = "0{DB8991AD-40C2-45FD-92B5-3E689E5B6539}{7CF32D2D-65CD-4C08-986C-FD184A165C4A}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

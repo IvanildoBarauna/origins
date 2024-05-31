@@ -1,5 +1,5 @@
 Attribute VB_Name = "frmCadastroProfissional"
-Attribute VB_Base = "0{246F6F80-A7AD-4FAD-8CC9-E79F3B928651}{CBF22641-DC5E-4EB7-B4E2-5CC9F3735E61}"
+Attribute VB_Base = "0{4388B5B6-7CCE-43C4-9602-DEFEDA1C6983}{BA5860A2-41A3-45C7-ABDE-F602216F5910}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

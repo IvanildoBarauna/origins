@@ -1,5 +1,5 @@
 Attribute VB_Name = "fGerarTabela"
-Attribute VB_Base = "0{787BF8E3-652A-4117-996C-B440A94CC8B9}{9C9E52CE-7A6A-4B86-9833-A0F47F59C633}"
+Attribute VB_Base = "0{D6398B2A-21C2-4AFD-B2D2-87D3023D4F07}{A3F95232-99D4-497D-BDE3-18CC4964DB7A}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -7,7 +7,8 @@ Attribute VB_Exposed = False
 Attribute VB_TemplateDerived = False
 Attribute VB_Customizable = False
 Option Explicit
-Private Sub CalcularSAC()
+
+Private Sub CalcularPRICE()
     Dim lo As ListObject
     Dim lr As ListRow
     Dim ValorTotal As Double
@@ -18,31 +19,32 @@ Private Sub CalcularSAC()
         
     Application.ScreenUpdating = False
         
-    ValorTotal = txtValor.Text
-    Entrada = txtEntrada.Text
+    ValorTotal = txtValor.Value
+    Entrada = txtEntrada.Value
     ValorFinanciado = ValorTotal - Entrada
-    Prestacoes = txtPrestacoes.Text
-    Taxa = CDbl(txtJuros.Text) / 100
+    Prestacoes = txtPrestacoes.Value
+    Taxa = CDbl(txtJuros.Value) / 100
+
     
-    With shtSAC
+    With shtPRICE
         .Unprotect
         .Range("ValorTotal").Value2 = ValorTotal
         .Range("Entrada").Value2 = Entrada
         .Range("ValorFinanciado").Value2 = ValorFinanciado
         .Range("Taxa").Value2 = Taxa
         .Range("Prestacoes").Value2 = Prestacoes
-        .Range("ValorAmortizacao").FormulaR1C1 = "=ValorFinanciado/Prestacoes"
+        .Range("ValorPrestacao").FormulaR1C1 = "=-PMT(Taxa,Prestacoes,ValorFinanciado)"
     End With
     
     'Gerar a Tabela
-    Set lo = shtSAC.ListObjects("tbSAC")
+    Set lo = shtPRICE.ListObjects("tbPRICE")
     If Not lo.DataBodyRange Is Nothing Then lo.DataBodyRange.Delete
     AddRows Prestacoes, lo
     With lo
         .DataBodyRange(1, .ListColumns("Saldo Inicial").Index).Value = ValorFinanciado
     End With
     
-    shtSAC.Protect
+    shtPRICE.Protect
     
     Application.ScreenUpdating = True
     
@@ -60,25 +62,25 @@ End Sub
 
 Private Function Validado() As Boolean
     If Not CDbl(txtValor.Text) > 0 Then
-        MsgBox "Infome um valor para calcular o financiamento", vbCritical, "SAC"
+        MsgBox "Infome um valor para calcular o financiamento", vbCritical, "PRICE"
         txtValor.SetFocus
         Exit Function
     End If
     
     If CDbl(txtEntrada.Text) >= CDbl(txtValor.Text) Then
-        MsgBox "A entrada deve ser menor que o valor do bem", vbCritical, "SAC"
+        MsgBox "A entrada deve ser menor que o valor do bem", vbCritical, "PRICE"
         txtEntrada.SetFocus
         Exit Function
     End If
     
     If Not Int(txtPrestacoes.Text) > 0 Then
-        MsgBox "Infome o número de prestações do financimento", vbCritical, "SAC"
+        MsgBox "Infome o número de prestações do financimento", vbCritical, "PRICE"
         txtPrestacoes.SetFocus
         Exit Function
     End If
     
     If Not CDbl(txtJuros.Text) > 0 Then
-        MsgBox "Infome a taxa de juros do financimento", vbCritical, "SAC"
+        MsgBox "Infome a taxa de juros do financimento", vbCritical, "PRICE"
         txtJuros.SetFocus
         Exit Function
     End If
@@ -89,7 +91,7 @@ End Function
 
 Private Sub btnCalcular_Click()
     If Not Validado Then Exit Sub
-    CalcularSAC
+    CalcularPRICE
     Unload Me
 End Sub
 
@@ -129,7 +131,6 @@ Private Sub txtPrestacoes_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
             'Permite
         Case Else
             KeyAscii = 1
-    
     End Select
 End Sub
 
@@ -182,7 +183,7 @@ Private Sub txtJuros_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
 End Sub
 
 Private Sub UserForm_Initialize()
-    With shtSAC
+    With shtPRICE
         txtValor.Text = Format(.Range("ValorTotal").Value2, "0.00")
         txtEntrada.Text = Format(.Range("Entrada").Value2, "0.00")
         txtPrestacoes.Text = Format(.Range("Prestacoes").Value2, "0")
