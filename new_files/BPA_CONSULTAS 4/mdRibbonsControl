@@ -1,0 +1,65 @@
+Attribute VB_Name = "mdRibbonsControl"
+Option Explicit
+'Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" _
+'                                    (ByVal hWnd As Long, _
+'                                     ByVal Operation As String, _
+'                                     ByVal Filename As String, _
+'                                     Optional ByVal Parameters As String, _
+'                                     Optional ByVal Directory As String, _
+'                                     Optional ByVal WindowStyle As Long = vbMinimizedFocus) As Long
+
+Public Sub OpenUrl(URL As String)
+Dim lSucess As Long
+    lSucess = ShellExecute(0, "Open", URL)
+End Sub
+
+Public Sub BTN_SHEETFICHAS(xControl As IRibbonControl)
+    With shFichas
+        .Activate
+        .Range("A1").Activate
+    End With
+End Sub
+
+Public Sub BTN_INICIO(xControl As IRibbonControl)
+    ModoTelaCheia Ligado
+    shApoio.Activate
+End Sub
+Public Sub BTN_FINALIZAR(xControl As IRibbonControl)
+    ModoTelaCheia Desligado
+    ThisWorkbook.Close SaveChanges:=True
+End Sub
+
+Public Sub BTN_FULLSCREEN(xControl As IRibbonControl)
+    If booAux Then
+        ModoTelaCheia Desligado
+    Else
+        ModoTelaCheia Ligado
+    End If
+End Sub
+
+Public Sub BTN_ABOUT(xControl As IRibbonControl)
+    frmCredits.Show
+End Sub
+
+Public Sub BTN_LANCAMENTOS(xControl As IRibbonControl): frmLançamentos.Show: End Sub
+Public Sub BTN_PRINT(xControl As IRibbonControl): frmPrint.Show: End Sub
+Public Sub BTN_PROFSHEET(xControl As IRibbonControl)
+    With shListas
+        .Activate
+        .Range("A1").Activate
+    End With
+End Sub
+
+Public Sub BTN_NEWPROF(xControl As IRibbonControl): frmProfissionais.Show: End Sub
+
+Public Sub BTN_BPALINK(xControl As IRibbonControl)
+    Dim sBPA As String
+    sBPA = "http://sia.datasus.gov.br/versao/listar_ftp_bpa.php"
+    OpenUrl (sBPA)
+End Sub
+
+Public Sub BTN_SIALINK(xControl As IRibbonControl)
+    Dim strSIA As String
+    strSIA = "http://sia.datasus.gov.br/versao/listar_ftp_sia.php"
+    OpenUrl (strSIA)
+End Sub

@@ -1,0 +1,72 @@
+Attribute VB_Name = "M—dulo1"
+
+Sub ETL()
+Attribute ETL.VB_ProcData.VB_Invoke_Func = " \n14"
+'
+' Macro2 Macro
+'
+
+'  'captura titutlo
+
+    Sheets("App Store_dec (2)").Select
+    Range("A1").Select
+    Selection.Copy
+    Application.CutCopyMode = False
+    Sheets("Tratado").Select
+    Range("A1").Select
+    Selection.End(xlDown).Select
+    ActiveCell.Offset(1, 0).Select
+    ActiveSheet.Paste
+
+'Captura Avalia�‹o
+    Sheets("App Store_dec (2)").Select
+    Range("A2").Select
+    Selection.Copy
+    Application.CutCopyMode = False
+    Sheets("Tratado").Select
+    Range("B1").Select
+    Selection.End(xlDown).Select
+    ActiveCell.Offset(1, 0).Select
+    ActiveSheet.Paste
+
+'Captura Autor
+    Sheets("App Store_dec (2)").Select
+    Range("A4").Select
+    Selection.Copy
+    Application.CutCopyMode = False
+    Sheets("Tratado").Select
+    Range("C1").Select
+    Selection.End(xlDown).Select
+    ActiveCell.Offset(1, 0).Select
+    ActiveSheet.Paste
+    
+'Captura Comentarios
+    Sheets("App Store_dec (2)").Select
+    Range("A5").Select
+    Selection.Copy
+    Application.CutCopyMode = False
+    Sheets("Tratado").Select
+    Range("D1").Select
+    Selection.End(xlDown).Select
+    ActiveCell.Offset(1, 0).Select
+    ActiveSheet.Paste
+    
+'Captura vers‹o
+    Sheets("App Store_dec (2)").Select
+    Range("A6").Select
+    Selection.Copy
+    Application.CutCopyMode = False
+    Sheets("Tratado").Select
+    Range("E1").Select
+    Selection.End(xlDown).Select
+    ActiveCell.Offset(1, 0).Select
+    ActiveSheet.Paste
+    
+'Remover as linhas
+    Sheets("App Store_dec (2)").Select
+    Rows("1:10").Select
+    Selection.Delete Shift:=xlUp
+    Sheets("Tratado").Select
+    Application.ScreenUpdating = True
+
+End Sub

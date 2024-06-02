@@ -1,0 +1,43 @@
+Attribute VB_Name = "Ficha"
+Attribute VB_Base = "0{FCFB3D2A-A0FA-1068-A738-08002B3371B5}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = False
+Option Explicit
+
+Private mlo           As ListObject
+Private mProfissional As String
+Private mDataNasc     As String
+Private mDataINI      As String
+
+
+Private Sub Class_Initialize(): Set mlo = shFichas.ListObjects("tbFichas"): End Sub
+Private Sub Class_Terminate(): Set mlo = Nothing: End Sub
+
+Public Property Let Profissional(sProf As String): mProfissional = sProf: End Property
+Public Property Let DataNascimento(sDataNasc As String): mDataNasc = sDataNasc: End Property
+Public Property Let DataInicial(sDataINI As String): mDataINI = sDataINI: End Property
+
+Public Sub Save()
+Dim lr As ListRow
+
+Set lr = mlo.ListRows.Add
+
+    With lr
+        .Application.Range(.Range(1, 1), .Range(1, mlo.ListColumns("DATA INICIAL").Index)).Value2 = ArrToListObject
+    End With
+End Sub
+
+Private Function ArrToListObject() As Variant
+Dim tmpArr(1 To 1, 1 To 3)  As Variant
+
+    tmpArr(1, mlo.ListColumns("PROFISSIONAL").Index) = mProfissional
+    tmpArr(1, mlo.ListColumns("DATA DE NASC.").Index) = VBA.Replace(mDataNasc, "/", "")
+    tmpArr(1, mlo.ListColumns("DATA INICIAL").Index) = VBA.Replace(mDataINI, "/", "")
+    
+    ArrToListObject = tmpArr
+    Erase tmpArr
+End Function

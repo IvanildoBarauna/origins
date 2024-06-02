@@ -1,10 +1,13 @@
 from oletools.olevba import VBA_Parser
 import os
+import datetime
 
 files = os.listdir("source_files/")
 
 def extract_full_code():
     for file in files: 
+        # timestamp_criacao = os.path.getctime("source_files/" + file)
+        # commit_date = datetime.datetime.fromtimestamp(timestamp_criacao).strftime('%Y-%m-%d %H:%M:%S')
         vba_parser = VBA_Parser("source_files/" + file)
         if vba_parser.detect_vba_macros():
             for (
@@ -14,7 +17,9 @@ def extract_full_code():
                 vba_code,
             ) in vba_parser.extract_all_macros():
                 print(f"VBA Code Founded: {vba_filename}")
-                with open(f"new_files/{vba_filename}", "w") as f:
+                os.makedirs(f"new_files/{file.split('.')[0]}", exist_ok=True)
+                
+                with open(f"new_files/{file.split('.')[0]}/{vba_filename}", "w") as f:
                     f.write(vba_code)
         else:
             print("Nenhum código VBA encontrado.")
