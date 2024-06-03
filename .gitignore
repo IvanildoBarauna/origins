@@ -1,2 +1,4 @@
 *.venv
 *RTP
+*_new_files
+*_source_files
