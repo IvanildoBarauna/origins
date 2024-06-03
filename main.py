@@ -5,9 +5,7 @@ import datetime
 files = os.listdir("source_files/")
 
 def extract_full_code():
-    for file in files: 
-        # timestamp_criacao = os.path.getctime("source_files/" + file)
-        # commit_date = datetime.datetime.fromtimestamp(timestamp_criacao).strftime('%Y-%m-%d %H:%M:%S')
+    for file in files:
         vba_parser = VBA_Parser("source_files/" + file)
         if vba_parser.detect_vba_macros():
             for (
