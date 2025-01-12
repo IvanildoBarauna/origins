@@ -1,6 +1,7 @@
 # VBA
-*.vb linguist-language=VBA
-*.frx linguist-language=VBA
-*.frm linguist-language=VBA
-*.cls linguist-language=VBA
-*.bas linguist-language=VBA
+*.vb linguist-vendored
+*.frx linguist-vendored
+*.frm linguist-vendored
+*.cls linguist-vendored
+*.bas linguist-vendored
+*.md linguist-documentation
